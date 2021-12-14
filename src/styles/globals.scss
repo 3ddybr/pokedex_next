@@ -1,0 +1,57 @@
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  --white: #f6f7f9;
+  --third: #f5db13;
+  --primary: #f2b807;
+  --secondary: #f28f16;
+  --danger:#D93E30;
+  --dark:#212121;
+
+  --pok-stile-dark-rock: #a1a1a1;
+  --pok-grass-bug:#70a83b;
+  --pok-ice-water:#a2cff0;
+  --pok-fire-fighting-dragon:#f76545;
+  --pok-normal-gosth:#76aadb;
+  --pok-poison-psychic-fairy-ghost:#a974bc;
+  --pok-ground:#9b897b;
+  --pok-electric:#F7c545;
+
+
+  font-size: 60%;
+  // background: no-repeat linear-gradient(var(--third) , var(--primary)); //cor de fundo de todo o app
+}
+
+html,
+body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Karla, Source Sans Pro, Helvetica Neue, sans-serif;
+  
+  background: no-repeat linear-gradient(var(--third) , var(--primary));
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button{
+  cursor: pointer;
+}
+
+a{
+  color: inherit; // poe a cor do link a mesma do elemento pai
+  text-decoration:none; //tirar o underline dos links
+}
+
+@media (max-width:700px) {
+  html{
+    font-size: 62.5%;
+  }
+  }
