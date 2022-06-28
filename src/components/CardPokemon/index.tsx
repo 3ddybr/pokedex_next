@@ -13,7 +13,7 @@ import styles from './styles.module.scss';
 //   results:Data[] 
 // }
 
-interface CardPokemonProps{
+export interface CardPokemonProps{
   name: string;
   value_attack: string;
   value_defence: string;
