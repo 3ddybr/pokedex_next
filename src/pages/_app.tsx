@@ -9,12 +9,12 @@ import Footer from '../components/Footer'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-    <Head>      
-        <title>Pokedex - 3DDY</title>
-    </Head>
-    <NavBar/>
-    <Component {...pageProps} />
-    <Footer/>
+      <Head>      
+          <title>Pokedex - 3DDY</title>
+      </Head>
+      <NavBar/>
+      <Component {...pageProps} />
+      <Footer/>
     </>
   )
 }

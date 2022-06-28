@@ -4,7 +4,7 @@ import styles from './home.module.scss'
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>    
+    <div className={styles.container}>
       <div className={styles.containerLayout}>
         <div className={styles.contentText}>
           <h1><em>Encontre</em> todos os seus <em>Pokémon</em> favoritos</h1>
@@ -17,7 +17,7 @@ const Home: NextPage = () => {
             <Image 
               src="/images/pikachuHomeCompleto.png" 
               alt="logo"
-              width={793} height={680}
+              width={944} height={721}
             />
           </div>
         </div>  
