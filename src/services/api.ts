@@ -1,21 +1,21 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'https://pokeapi.co/api/v2/pokemon'
+  baseURL: 'https://pokeapi.co/api/v2',
 })
 export default api;
 
 
 
-// export const searchPokemon = async (pokemon) => {
-//   try {
-//       let url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-//       const response = await fetch(url)
-//       return await response.json()
-//   } catch (error) {
-//       console.log("error: ", error)
-//   }
-// }
+export const searchPokemon = async (pokemon: string) => {
+  try {
+      let url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`
+      const response = await fetch(url)
+      return await response.json()
+  } catch (error) {
+      console.log("error: ", error)
+  }
+}
 
 // export const getPokemons = async (limit = 50, offset = 0) => {
 //   try {

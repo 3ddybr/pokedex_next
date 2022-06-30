@@ -3,6 +3,6 @@ module.exports = {
   optimizeFonts: false,
   reactStrictMode: true,
   images:{
-    domains: ['assets.pokemon.com', 'pokeapi.co']
+    domains: ['assets.pokemon.com', 'pokeapi.co','raw.githubusercontent.com']
   }
 }

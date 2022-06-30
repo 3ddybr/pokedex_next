@@ -1,0 +1,12 @@
+ useEffect(() => {
+    const getPokemons = async () => {
+      // const response = await api.get(`/pokemon?offset=${offset}&limit=20`);
+      // const pokemonListName = response.data.results.map((pokemonName:any)=>{
+      const pokemonListName = pokemon.results.map((pokemonName:any)=>{
+        return pokemonName.name;
+      })
+    setPokemonList(pokemonListName)} 
+    getPokemons();
+  },[pokemon.results])
+
+  console.log(pokemonList);

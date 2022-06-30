@@ -88,27 +88,6 @@ export default function CardPokemon ({name, value_attack, value_defence, poke_ty
           width={168} height={146}
         />         
       </div>
-{/* 
-             <button onClick={async()=>{
-               const response = await api.get('/pokemon/1/')
-               console.log("console da linha 57 cardpokemon", response.data)
-              }}>buscar</button>  */}
   </div>
   )
 }
-
-{/* <h1>Teste</h1>
-      {pokemonsList.map((pokemonList, i) =>{
-        return(
-          <div key={i}>
-            <h1>{pokemonList.url}</h1>
-            <p>{pokemonList.name}</p>
-          </div>
-        )})} */}
-
-
-
-        {/* <button onClick={async()=>{
-      const response = await api.get('/pokemon/1/')
-      console.log("console da linha 57", response.data)
-    }}>buscar</button> */}
