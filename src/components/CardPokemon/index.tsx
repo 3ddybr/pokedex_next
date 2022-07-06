@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react"
-import api from '../../services/api'
-
 import Image  from 'next/image' 
 
 import styles from './styles.module.scss';
@@ -16,31 +13,13 @@ import styles from './styles.module.scss';
 export interface CardPokemonProps{
   name: string;
   value_attack: string;
-  value_defence: string;
+  value_defense: string;
   poke_type: string;
   grass_type: string;
   img_url: string;
 }
 
-export default function CardPokemon ({name, value_attack, value_defence, poke_type, grass_type, img_url }: CardPokemonProps){
-  // const [pokemonsList, setPokemonsList] = useState<Data[]>([])  
-
-  // useEffect(() => {
-  //   async function getApi() {
-  //     try {
-  //        const response = await api.get<getPok>('/pokemon?offset=0&limit=20')
-  //        const dataResults = response.data.results
-  //       //  const dataUrl = dataResults.map(data => data.url)
-  //       // console.log("Console linha 24 tes" ,dataResults)
-  //         setPokemonsList([...dataResults])
-  //     }catch (e) {
-  //       console.log(e)
-  //     }     
-  //   }
-  //   getApi()
-  // },[])
-
-
+export default function CardPokemon ({name, value_attack, value_defense, poke_type, grass_type, img_url }: CardPokemonProps){
   return(
     <div className={styles.cardPreview}>      
         <div className={styles.container}>
@@ -62,7 +41,7 @@ export default function CardPokemon ({name, value_attack, value_defence, poke_ty
             <div className={styles.cardPropContainer}>
               <div className={styles.group5}>
                 <div className={styles.group4}>
-                  <span>{value_defence}</span>
+                  <span>{value_defense}</span>
                 </div>
                 <span>Defense</span>
               </div>

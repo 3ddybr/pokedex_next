@@ -17,6 +17,16 @@ export const searchPokemon = async (pokemon: string) => {
   }
 }
 
+export const allPokemonNames = async () =>{
+  try{
+    const response = await api.get(`/pokemon?limit=100000&offset=0`)
+    return  response.data
+  }catch (error) {
+    console.log("error allPokemonNames: ", error)
+  }
+}
+
+
 // export const getPokemons = async (limit = 50, offset = 0) => {
 //   try {
 //       let url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
