@@ -1,3 +1,4 @@
+import { GetStaticProps } from 'next';
 import { useEffect, useState } from 'react';
 import CardPokemon from '../../components/CardPokemon';
 import api, { allPokemonNames, searchPokemon } from '../../services/api';
@@ -85,9 +86,9 @@ export default function Pokedex({ initialPokemon }: any) {
   useEffect(() => {
     if(handleSearch !== ""){
     setSearchData(allPokemonName.filter(pokemon=> pokemon.toLowerCase().includes(handleSearch.toLowerCase())))
-    setPokemonListName(searchData)
+    // setPokemonListName(searchData)
   }
-  } , [allPokemonName, handleSearch, searchData])
+  } , [allPokemonName, handleSearch])
 
   console.log("pokemon Linstname" , searchData)
 
@@ -133,7 +134,7 @@ export default function Pokedex({ initialPokemon }: any) {
   )
 }
 
-export async function getStaticProps() {
+export const getStaticProps:GetStaticProps= async () => {
   const response = api.get(`/pokemon`);
   const initialPokemon = (await response).data
   // console.log("get props  ", initialPokemon);
