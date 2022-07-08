@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 import { useEffect, useState } from 'react';
 import CardPokemon from '../../components/CardPokemon';
-import api, { allPokemonNames, searchPokemon } from '../../services/api';
+import api, { searchPokemon } from '../../services/api';
 import styles from './styles.module.scss';
 
 interface pokemonData {
@@ -26,76 +26,63 @@ interface resultsProps {
   url: string;
 }
 
+
+
 export default function Pokedex({ initialPokemon }: any) {
   const [pokemon, setPokemon] = useState<initialPokemonProps>(initialPokemon);
-  const [pokemonListName, setPokemonListName] = useState<string[]>([]);
-  const [allPokemonName, setAllPokemonName] = useState<string[]>([]);
+  const [pokemonListName, setPokemonListName] = useState<resultsProps[]>([]);
   const [pokemonData, setPokemonData] = useState<any[]>([]);
 
-  const [searchData, setSearchData] = useState<string[]>([])
+  const [searchData, setSearchData] = useState(pokemonListName)
   const [handleSearch, setHandleSearch] = useState('')
 
-  const [offset, setOffSet] = useState(0);
+  const [page, setPage] = useState(1);  //qual pagina estou
+  const [pokemonPerPages, setPokemonPerPages] = useState(19); //quantos Pokemons por pagina
 
-  const fetchPokemon = async (url: string, next: boolean) => {
-    const response = await fetch(url);
-    const nextPokemon = await response.json();
-
-    setOffSet(next ? offset + 20 : offset - 20);
-    setPokemon(nextPokemon);
-  }
+  // const [offset, setOffSet] =useState(0);
 
   useEffect(() => {
-    const getPokemonsNames = async () => {
-      const getPokemonListName = pokemon.results.map((pokemonName) => {
-        return pokemonName.name;
+    setPage(pokemonPerPages)
+  }
+    , [])
+
+  useEffect(() => {
+    function handlePagination() {
+      var remove = document.getElementById("carregar");
+      if (pokemonPerPages > pokemon.results.length) {
+        // alert("Todos os pokemon foram exibidos")
+        remove?.parentNode?.removeChild(remove);
+        console.log(pokemonPerPages, pokemon.results.length)
+      } else {
+        setPokemonPerPages(pokemonPerPages + page);
+        console.log(pokemonPerPages, pokemon.results.length)
+      }
+    } handlePagination();
+  }, [])
+
+  useEffect(() => {
+    if (handleSearch !== "") {
+      setSearchData(pokemon.results.filter(pokemon => pokemon.name.toLowerCase().includes(handleSearch.toLowerCase())))
+    } else {
+      setSearchData(pokemon.results)
+    }
+  }, [handleSearch])
+
+  useEffect(() => {
+    setPokemonData([])
+    const indexOfLastPoke = pokemonPerPages;
+    const indexOfFirstPoke = indexOfLastPoke - pokemonPerPages;
+    const currentPoke = searchData.slice(indexOfFirstPoke, indexOfLastPoke);
+
+    if (currentPoke.length <= pokemonPerPages) {
+      currentPoke.map(async ({ name }) => {
+        const data = await searchPokemon(name);
+        setPokemonData(old => [...old, data])
       })
-      setPokemonListName(getPokemonListName)
     }
-    getPokemonsNames();
-  }, [pokemon.results])
+  }, [pokemonPerPages, searchData]);
 
-  // console.log("console log linha 30  ", pokemonListName);
-
-  useEffect(() => {
-    pokemonListName.map(async (name) => {
-      const data = await searchPokemon(name);
-      // console.log(data)
-      setPokemonData(old => [...old, data])
-    }
-    )
-  }, [pokemonListName]);
-
-  console.log("console log linha 40  ", pokemonData);
-
-  //Busca todos os nomes de pokemons
-  useEffect(() => {
-    const getAllPokemonNames = async () => {
-      const response = await api.get(`/pokemon?limit=100000&offset=0`)
-      const dataResults = await response.data.results;
-      const allNames = dataResults.map((pokemonName: { name: string; }) => {
-        return pokemonName.name;
-      })
-      setAllPokemonName(allNames)
-    }
-    getAllPokemonNames();
-  }
-    , []);
-  // console.log("allpokemons vem todos os nomes de pokemon", allPokemonName)
-
-  useEffect(() => {
-    if(handleSearch !== ""){
-    setSearchData(allPokemonName.filter(pokemon=> pokemon.toLowerCase().includes(handleSearch.toLowerCase())))
-    // setPokemonListName(searchData)
-  }
-  } , [allPokemonName, handleSearch])
-
-  console.log("pokemon Linstname" , searchData)
-
-
-
-  // console.log(pokemonListName)
-
+  // console.log("console log linha 103  ", pokemonData);
 
 
   return (
@@ -108,15 +95,14 @@ export default function Pokedex({ initialPokemon }: any) {
           value={handleSearch}
           onChange={(ev) => setHandleSearch(ev.target.value)}
         />
-
       </div>
       <div className={styles.cards}>
-        {pokemonData.map((pokemon: any, index: any) => (
+        {pokemonData.map((pokemon) => (
           <CardPokemon
             key={pokemon.id}
             name={(pokemon.name)}
-            value_attack={pokemon.stats[1].base_stat}
-            value_defense={pokemon.stats[2].base_stat}
+            value_attack={pokemon.base_experience}
+            value_defense={pokemon.weight}
             grass_type='Grass'
             poke_type={pokemon.types[0].type.name}
             img_url={pokemon.sprites.front_default}
@@ -126,18 +112,20 @@ export default function Pokedex({ initialPokemon }: any) {
 
       </div>
 
+
       <div className={styles.btnNav}>
-        {/* <button disabled={!pokemon.previous} onClick={()=> fetchPokemon(pokemon.previous, false)} className={styles.btnPagination}>Prev</button> */}
-        <button disabled={!pokemon.next} onClick={() => fetchPokemon(pokemon.next, true)} className={styles.btnPagination}>Carregar mais</button>
+        {/* <button onClick={()=> setPokemonPerPages((pokemonPerPages )- 20)} className={styles.btnPagination}>Prev</button> */}
+        <button onClick={() => { setPokemonPerPages(pokemonPerPages + 20) }} className={styles.btnPagination}>Carregar mais</button>
       </div>
     </div>
   )
 }
 
-export const getStaticProps:GetStaticProps= async () => {
-  const response = api.get(`/pokemon`);
+export const getStaticProps: GetStaticProps = async () => {
+  const response = api.get(`/pokemon?limit=100000&offset=0`);
   const initialPokemon = (await response).data
-  // console.log("get props  ", initialPokemon);
+  // console.log( initialPokemon);
+
   return {
     props: {
       initialPokemon
