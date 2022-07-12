@@ -117,7 +117,7 @@ export default function Pokedex({ initialPokemon }: any) {
             name={(pokemon.name)}
             value_attack={pokemon.stats[1].base_stat}
             value_defense={pokemon.stats[2].base_stat}
-            grass_type='Grass'
+            // grass_type='Grass'
             poke_type={pokemon.types[0].type.name}
             img_url={pokemon.sprites.front_default}
           // img_url={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${('000'+ (index + 1 + offset)).slice(-3)}.png` }

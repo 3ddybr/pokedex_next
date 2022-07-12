@@ -1,7 +1,12 @@
 import { GetStaticProps } from 'next';
 import { useEffect, useState } from 'react';
+
+import {debounce} from 'lodash';
+
 import CardPokemon from '../../components/CardPokemon';
 import api, { searchPokemon } from '../../services/api';
+
+
 import styles from './styles.module.scss';
 
 interface pokemonData {
@@ -26,8 +31,6 @@ interface resultsProps {
   url: string;
 }
 
-
-
 export default function Pokedex({ initialPokemon }: any) {
   const [pokemon, setPokemon] = useState<initialPokemonProps>(initialPokemon);
   const [pokemonListName, setPokemonListName] = useState<resultsProps[]>([]);
@@ -38,12 +41,15 @@ export default function Pokedex({ initialPokemon }: any) {
 
   const [page, setPage] = useState(1);  //qual pagina estou
   const [pokemonPerPages, setPokemonPerPages] = useState(19); //quantos Pokemons por pagina
-
   // const [offset, setOffSet] =useState(0);
+
+const updateHandlerSearch = (e:any) => setHandleSearch(e?.target?.value)
+const debounceOnChange = debounce(updateHandlerSearch, 500);
 
   useEffect(() => {
     setPage(pokemonPerPages)
   }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     , [])
 
   useEffect(() => {
@@ -52,12 +58,13 @@ export default function Pokedex({ initialPokemon }: any) {
       if (pokemonPerPages > pokemon.results.length) {
         // alert("Todos os pokemon foram exibidos")
         remove?.parentNode?.removeChild(remove);
-        console.log(pokemonPerPages, pokemon.results.length)
+        console.log("primeiro",pokemonPerPages, pokemon.results.length)
       } else {
         setPokemonPerPages(pokemonPerPages + page);
-        console.log(pokemonPerPages, pokemon.results.length)
+        console.log("segundo",pokemonPerPages, pokemon.results.length)
       }
     } handlePagination();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -66,6 +73,7 @@ export default function Pokedex({ initialPokemon }: any) {
     } else {
       setSearchData(pokemon.results)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSearch])
 
   useEffect(() => {
@@ -93,7 +101,7 @@ export default function Pokedex({ initialPokemon }: any) {
           type="text"
           placeholder="Buscar Pokemons"
           value={handleSearch}
-          onChange={(ev) => setHandleSearch(ev.target.value)}
+          onChange={debounceOnChange}
         />
       </div>
       <div className={styles.cards}>
@@ -101,17 +109,17 @@ export default function Pokedex({ initialPokemon }: any) {
           <CardPokemon
             key={pokemon.id}
             name={(pokemon.name)}
-            value_attack={pokemon.base_experience}
-            value_defense={pokemon.weight}
-            grass_type='Grass'
-            poke_type={pokemon.types[0].type.name}
+            value_attack={pokemon.stats[1].base_stat}
+            value_defense={pokemon.stats[2].base_stat}
+            
+            poke_type={pokemon.types}
+            // poke_type={pokemon.types.map((types: { type: { name: any; }; }) => types.type.name)}
             img_url={pokemon.sprites.front_default}
           // img_url={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${('000'+ (index + 1 + offset)).slice(-3)}.png` }
           />
         ))}
 
       </div>
-
 
       <div className={styles.btnNav}>
         {/* <button onClick={()=> setPokemonPerPages((pokemonPerPages )- 20)} className={styles.btnPagination}>Prev</button> */}

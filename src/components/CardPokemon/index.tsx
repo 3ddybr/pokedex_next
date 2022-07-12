@@ -14,12 +14,18 @@ export interface CardPokemonProps{
   name: string;
   value_attack: string;
   value_defense: string;
-  poke_type: string;
-  grass_type: string;
+  poke_type: pokeType[];  
   img_url: string;
 }
 
-export default function CardPokemon ({name, value_attack, value_defense, poke_type, grass_type, img_url }: CardPokemonProps){
+interface pokeType{
+  type: {
+    name: string
+    url: string,
+  }
+}
+
+export default function CardPokemon ({name, value_attack, value_defense, poke_type, img_url }: CardPokemonProps){
   return(
     <div className={styles.cardPreview}>      
         <div className={styles.container}>
@@ -48,18 +54,16 @@ export default function CardPokemon ({name, value_attack, value_defense, poke_ty
             </div>
           </div>
 
-          <div className={styles.cardBoxTages}>
-            <div className={styles.cardTag}>
-              <span>{grass_type}</span>
-            </div>
-
-            <div className={styles.cardTag}>
-              <span>{poke_type}</span>
-            </div>
+          <div className={styles.cardBoxTages}>              
+            { poke_type.map((type) => {
+              return(
+                <div key={type.type.name} className={styles.cardTag}>
+                  <span >{type.type.name}</span>
+                </div>  
+              )                  
+            } )}
           </div>
-
-
-        </div>    
+        </div>         
       <div className={styles.cardBoxImg}>
         <Image 
           src={img_url}
@@ -68,5 +72,6 @@ export default function CardPokemon ({name, value_attack, value_defense, poke_ty
         />         
       </div>
   </div>
+  
   )
 }
