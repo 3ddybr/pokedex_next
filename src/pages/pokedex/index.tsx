@@ -100,7 +100,7 @@ const debounceOnChange = debounce(updateHandlerSearch, 500);
         <input
           type="text"
           placeholder="Buscar Pokemons"
-          value={handleSearch}
+          // value={handleSearch}
           onChange={debounceOnChange}
         />
       </div>

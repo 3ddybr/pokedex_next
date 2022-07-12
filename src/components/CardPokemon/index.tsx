@@ -68,6 +68,7 @@ export default function CardPokemon ({name, value_attack, value_defense, poke_ty
         <Image 
           src={img_url}
           alt="logo"
+          quality={100}
           width={168} height={146}
         />         
       </div>
